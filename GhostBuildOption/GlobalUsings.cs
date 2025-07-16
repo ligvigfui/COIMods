@@ -1,0 +1,14 @@
+﻿global using Mafi;
+global using Mafi.Core;
+global using Mafi.Core.Input;
+global using Mafi.Core.Messages;
+global using Mafi.Core.Prototypes;
+global using Mafi.Serialization;
+global using Mafi.Unity;
+global using Mafi.Unity.InputControl;
+global using Mafi.Unity.Ui;
+global using Mafi.Unity.Ui.Hud;
+global using Mafi.Unity.UiStatic.Toolbar;
+global using System.Reflection;
+global using HarmonyLib;
+global using UnityEngine;
