@@ -1,98 +1,67 @@
-﻿namespace GhostBuildOption;
+namespace GhostBuildOption;
 
-[GlobalDependency(RegistrationMode.AsEverything, false, false)]
-internal class GhostModeInputController : IToolbarItemController, IUnityInputController, IHotReloadUi
+[GlobalDependency(RegistrationMode.AsSelf)]
+public sealed class GhostModeInputController : IToolbarItemController, IUnityInputController, IHotReloadUi
 {
-    private readonly UnlockedProtosDbForUi m_unlockedProtosDb;
-
-    private readonly MessagesWindow.Controller m_messagesCenterController;
-
     private readonly IUnityInputMgr m_inputManager;
-
     private readonly IInputScheduler m_inputScheduler;
+    private readonly GhostPlanningAccess m_planningAccess;
+    private static readonly Type s_planningController = typeof(UiContext).Assembly.GetType(
+        "Mafi.Unity.Ui.Controllers.Tools.PlanningModeInputController", true);
 
-    private bool m_doNotSendCommand;
-
-    private Option<MessageProto> m_planningModeTutorial;
-
-    private readonly Proto m_lockedByProto;
-
-    public bool IsVisible { get; private set; }
-
+    public bool IsVisible => m_planningAccess.IsUnlocked;
     public bool DeactivateShortcutsIfNotVisible => true;
-
     public ControllerConfig Config => ControllerConfig.Mode;
 
-    public event Action<IToolbarItemController> VisibilityChanged;
+    public event Action<IToolbarItemController>? VisibilityChanged;
 
-    public GhostModeInputController(ToolbarHud toolbar, UiContext context, GhostModeManager GhostModeManager, MessagesWindow.Controller messagesCenterController)
+    public GhostModeInputController(ToolbarHud toolbar, UiContext context, GhostPlanningAccess planningAccess)
     {
-        m_unlockedProtosDb = context.UnlockedProtosDbForUi;
-        m_messagesCenterController = messagesCenterController;
         m_inputManager = context.InputMgr;
         m_inputScheduler = context.InputScheduler;
-        m_lockedByProto = context.ProtosDb.GetOrThrow<Proto>(IdsCore.Technology.PlanningTool);
-        IsVisible = m_unlockedProtosDb.IsUnlocked(m_lockedByProto);
-        if (!IsVisible)
-        {
-            m_unlockedProtosDb.OnUnlockedSetChangedForUi += updateIsVisible;
-        }
-        toolbar.AddToolButton(Tr.GhostMode, this, "assets/ghost_icon.svg", 20f, (ShortcutsManager m) => m.ToggleGhostMode(), null); //TODO: todo switch this null to a wiki page link
-        if (GhostModeManager.IsGhostModeEnabled)
-        {
-            m_doNotSendCommand = true;
-            context.InputMgr.ActivateNewController(this);
-            m_doNotSendCommand = false;
-        }
-    }
-
-    private void updateIsVisible()
-    {
-        bool flag = m_unlockedProtosDb.IsUnlocked(m_lockedByProto);
-        if (IsVisible != flag)
-        {
-            IsVisible = flag;
-            this.VisibilityChanged?.Invoke(this);
-        }
+        m_planningAccess = planningAccess;
+        m_planningAccess.Changed += OnVisibilityChanged;
+        m_inputManager.ControllerActivated += OnControllerActivated;
+        toolbar.AddToolButton(Tr.GhostMode, this,
+            GhostIcons.Build, 21f,
+            MyShortcutsStorage.ToggleGhostMode, null);
     }
 
     public void Activate()
     {
-        if (!m_doNotSendCommand)
-        {
-            if (m_planningModeTutorial.HasValue)
-            {
-                m_messagesCenterController.ForceOpenMessageIfNotRead(m_planningModeTutorial.Value);
-                m_planningModeTutorial = Option<MessageProto>.None;
-            }
-            m_inputScheduler.ScheduleInputCmd(new SetGhostModeEnableCmd(isEnabled: true));
-        }
+        var controllers = m_inputManager.ActiveControllers;
+        for (int i = controllers.Count - 1; i >= 0; i--)
+            if (controllers[i].GetType() == s_planningController)
+                m_inputManager.DeactivateController(controllers[i]);
+        GhostModeManager.IsGhostModeEnabled = true;
+        m_inputScheduler.ScheduleInputCmd(new SetGhostBuildModeCmd(true));
+        Logger.Info("Ghost Build enabled. New buildings and transports remain unbuilt ghosts.");
     }
 
     public void Deactivate()
     {
-        if (!m_doNotSendCommand)
-        {
-            m_inputScheduler.ScheduleInputCmd(new SetGhostModeEnableCmd(isEnabled: false));
-        }
+        GhostModeManager.IsGhostModeEnabled = false;
+        m_inputScheduler.ScheduleInputCmd(new SetGhostBuildModeCmd(false));
+        Logger.Info("Ghost Build disabled.");
     }
 
-    public void DeactivateSelf()
-    {
-        m_inputManager.DeactivateController(this);
-        m_inputScheduler.ScheduleInputCmd(new SetGhostModeEnableCmd(isEnabled: false));
-    }
+    public void DeactivateSelf() => m_inputManager.DeactivateController(this);
 
-    public bool InputUpdate()
+    public bool InputUpdate() => false;
+
+    private void OnVisibilityChanged() => VisibilityChanged?.Invoke(this);
+
+    private void OnControllerActivated(IUnityInputController controller)
     {
-        return false;
+        if (controller.GetType() == s_planningController && GhostModeManager.IsGhostModeEnabled)
+            DeactivateSelf();
     }
 
     public void DisposeForHotReload()
     {
-        if (!IsVisible)
-        {
-            m_unlockedProtosDb.OnUnlockedSetChangedForUi -= updateIsVisible;
-        }
+        m_planningAccess.Changed -= OnVisibilityChanged;
+        m_inputManager.ControllerActivated -= OnControllerActivated;
+        m_inputManager.RemoveGlobalShortcut(this);
+        Deactivate();
     }
 }

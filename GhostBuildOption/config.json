@@ -1,0 +1,14 @@
+{
+  "ghost_color": {
+    "default": "#FFFF00",
+    "max_length": 7,
+    "regex": "^#[0-9A-Fa-f]{6}$",
+    "description": "Ghost tint color as #RRGGBB, blended over the native planning color using Ghost tint opacity. Save and reload your colony after changing appearance settings."
+  },
+  "ghost_tint_opacity": {
+    "default": 20,
+    "min": 0,
+    "max": 100,
+    "description": "Tint strength in percent: 0 keeps the native planning color, 20 gives a softer tint, 100 uses the full selected color. This does not make models see-through. Save and reload to apply."
+  }
+}

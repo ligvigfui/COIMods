@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(GboOutput)\assets\*.png" Link="assets\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(GboOutput)\config.json" Link="config.json" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.6" />
+    <Reference Include="GhostBuildOption" HintPath="$(GboOutput)\GhostBuildOption.dll" />
+    <Reference Include="Mafi" HintPath="$(COI_ROOT)\Captain of Industry_Data\Managed\Mafi.dll" Private="false" />
+    <Reference Include="Mafi.Core" HintPath="$(COI_ROOT)\Captain of Industry_Data\Managed\Mafi.Core.dll" Private="false" />
+    <Reference Include="Mafi.Base" HintPath="$(COI_ROOT)\Captain of Industry_Data\Managed\Mafi.Base.dll" Private="false" />
+    <Reference Include="Mafi.Unity" HintPath="$(COI_ROOT)\Captain of Industry_Data\Managed\Mafi.Unity.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(COI_ROOT)\Captain of Industry_Data\Managed\UnityEngine.CoreModule.dll" Private="false" />
+  </ItemGroup>
+  <Target Name="CheckPaths" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(GboOutput)' == ''" Text="Set GboOutput to the built mod directory." />
+    <Error Condition="'$(COI_ROOT)' == ''" Text="Set COI_ROOT to the game directory." />
+  </Target>
+</Project>

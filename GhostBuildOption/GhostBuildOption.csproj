@@ -27,8 +27,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Lib.Harmony" Version="2.3.6" />
-	  <PackageReference Include="MethodDecorator.Fody" Version="1.1.1" />
+		<None Update="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="config.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="assets\*.svg;assets\*.png" CopyToOutputDirectory="PreserveNewest" />
+		<Compile Remove="tests\**\*.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Lib.Harmony" Version="2.3.6" />
 	</ItemGroup>
 
 	<ItemGroup>

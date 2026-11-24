@@ -10,5 +10,4 @@ global using Mafi.Unity.Ui;
 global using Mafi.Unity.Ui.Hud;
 global using Mafi.Unity.UiStatic.Toolbar;
 global using System.Reflection;
-global using HarmonyLib;
 global using UnityEngine;
