@@ -1,0 +1,13 @@
+{
+  "id": "HorizontalDirectionalDrilling",
+  "version": "0.1.0",
+  "display_name": "Horizontal Directional Drilling",
+  "description_short": "Foundation for planned underground crossings and directional-drilling infrastructure.",
+  "description_long": "Horizontal Directional Drilling is an early foundation mod for adding steerable underground pipe and utility crossings to Captain of Industry.\n\nThis starter release installs cleanly, validates its configuration, and provides the project structure and stable identifiers needed for development. It does not add craftable items, research, buildings, or a drilling tool yet.\n\nPlanned features\n- Entry and exit drilling pads\n- Curved underground route planning\n- Fluid-pipe and utility crossings\n- Construction materials, power, maintenance and balancing\n- Route validation, save migration and localization",
+  "authors": [ "Ligvigfui" ],
+  "primary_dlls": [ "HorizontalDirectionalDrilling.dll" ],
+  "non_locking_dll_load": true,
+  "can_add_to_saved_game": true,
+  "can_remove_from_saved_game": true,
+  "min_game_version": "0.8.8"
+}

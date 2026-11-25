@@ -29,6 +29,7 @@
 	<ItemGroup>
 		<None Update="manifest.json" CopyToOutputDirectory="PreserveNewest" />
 		<None Update="config.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="changelog.txt" CopyToOutputDirectory="PreserveNewest" />
 		<None Update="assets\*.svg;assets\*.png" CopyToOutputDirectory="PreserveNewest" />
 		<Compile Remove="tests\**\*.cs" />
 	</ItemGroup>

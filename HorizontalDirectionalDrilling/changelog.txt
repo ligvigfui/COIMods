@@ -1,0 +1,4 @@
+v0.1.0 | 2026-11-24
+* Created the loadable Horizontal Directional Drilling mod foundation.
+* Added manifest, JSON configuration, startup diagnostics, stable IDs, icon asset and project packaging.
+* Documented the planned prototype, dependency, localization and save-compatibility integration points.

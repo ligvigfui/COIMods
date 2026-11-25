@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Horizontal Directional Drilling</title>
+  <desc id="desc">A curved underground drill route joining two surface pads.</desc>
+  <rect width="512" height="512" rx="64" fill="#17252c"/>
+  <path d="M64 176h384" stroke="#b9a56b" stroke-width="18"/>
+  <path d="M96 176V112h72v64M344 176v-64h72v64" fill="#d8dee2" stroke="#d8dee2" stroke-width="12"/>
+  <path d="M132 176c36 0 44 176 124 176s88-176 124-176" fill="none" stroke="#df8d3c" stroke-width="28" stroke-linecap="round"/>
+  <path d="M132 176c36 0 44 176 124 176s88-176 124-176" fill="none" stroke="#ffc36a" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 18"/>
+  <path d="M376 154l30 22-30 22" fill="none" stroke="#f2f5f6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M64 416h384" stroke="#496674" stroke-width="12" opacity=".8"/>
+</svg>

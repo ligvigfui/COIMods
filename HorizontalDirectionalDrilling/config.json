@@ -1,0 +1,6 @@
+{
+  "enable_verbose_logging": {
+    "default": false,
+    "description": "Write the current Horizontal Directional Drilling configuration to the game log during startup."
+  }
+}

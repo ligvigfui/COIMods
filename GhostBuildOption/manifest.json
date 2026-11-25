@@ -1,6 +1,6 @@
 {
   "id": "GhostBuildOption",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "display_name": "Ghost Build Option",
   "description_short": "Create ghost buildings and blueprints, without terrain collision or transport supports.",
   "description_long": "Design first, build later. Place buildings and whole blueprints, including belts and pipes, as unbuilt ghosts, then validate them into normal plans when the site is ready.\n\nControls\n- Shift+B: toggle Ghost Build. A tinted badge shows when it is active. Ghost Build and normal planning are mutually exclusive.\n- Shift+G: activate the Ghost planner tool. Click one item or drag an area: if the selection contains ghosts, validate those into plans; otherwise, turn paused construction plans with no delivered materials into ghosts. Built structures are unchanged. You can also validate a single ghost from its construction panel.\n- Both tools unlock with Planning Tool research. Rebind them under Settings > Controls > Tools.\n\nGhost placement\nGhosts can float above terrain or extend underground without transport supports. Terrain, fertility and water suitability are checked later. Building collisions, map boundaries, research and attachment rules still apply. Coastal buildings retain their normal world-elevation limits, and well pumps still require a matching deposit.\n\nGhosts remain unbuilt and do not obstruct vehicles or ships. The Unity tool ignores them, without cost previews or highlighting. Trimming a ghost transport or connecting a new section preserves the existing pieces' ghost status.\n\nValidation\nEach selected ghost undergoes normal placement and support checks. Successful items become ordinary plans with their settings and connections preserved; required supports are added only after validation succeeds. Use normal construction controls to start building. Only plans with no delivered materials can turn back into ghosts; their settings and existing supports are preserved.\n\nFailed items remain ghosts with a red exclamation icon. Hover for all errors and affected-tile highlights, or open the entity's Conversion failed section. Warnings describe the last validation attempt: fix the problem and retry to update or clear them.\n\nAppearance\nOpen Settings > Miscellaneous > Ghost Build appearance to change the color and tint strength (default: yellow, 20%). Tint strength changes the color overlay, not model transparency. Save and reload to refresh existing visuals. Configure on the mod's card sets defaults for new colonies.\n\nSave compatibility\nGhosts and validation warnings survive save/load; the placement toggle resets. Back up your save before use. This mod cannot safely be removed from a saved colony. Saves containing validation diagnostics require GBO 1.0.15 or newer.",
@@ -8,5 +8,6 @@
   "primary_dlls": [ "0Harmony.dll", "GhostBuildOption.dll" ],
   "non_locking_dll_load": true,
   "can_add_to_saved_game": true,
-  "can_remove_from_saved_game": true
+  "can_remove_from_saved_game": false,
+  "min_game_version": "0.8.8"
 }
